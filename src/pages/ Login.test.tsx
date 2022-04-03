@@ -27,7 +27,7 @@ describe("Given a Login page", () => {
       const inputName = screen.getByRole("textbox", { name: "USERNAME" });
       userEvent.type(inputName, username);
 
-      const inputPassword = screen.getByRole("textbox", { name: "PASSWORD" });
+      const inputPassword = screen.getByLabelText("PASSWORD");
       userEvent.type(inputPassword, password);
 
       const findButton = screen.getByRole("button");
@@ -53,7 +53,7 @@ describe("Given a Login page", () => {
       const inputName = screen.getByRole("textbox", { name: "USERNAME" });
       userEvent.type(inputName, username);
 
-      const inputPassword = screen.getByRole("textbox", { name: "PASSWORD" });
+      const inputPassword = screen.getByLabelText("PASSWORD");
       userEvent.type(inputPassword, password);
 
       const findButton = screen.getByRole("button");
