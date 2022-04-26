@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import CreatePlayer from "./pages/CreatePlayer";
-import DetailPage from "./pages/DetailPage";
+import DetailPage from "./pages/Detail";
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import NotFound from "./pages/NotFound";
