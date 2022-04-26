@@ -28,7 +28,6 @@ const DetailPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const players = useSelector((state: State) => state.players);
-console.log('PLAYEEERS' ,players);
 
   useEffect(() => {
     dispatch(loadPlayersThunk());
