@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
-import { errorHadlers } from "../mocks/handlers";
-import { server } from "../mocks/server";
+import { errorHadlers } from "../../mocks/handlers";
+import { server } from "../../mocks/server";
 import Login from "./Login";
 
 const mockNavigate = jest.fn();

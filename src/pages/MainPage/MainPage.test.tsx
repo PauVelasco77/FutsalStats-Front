@@ -6,7 +6,7 @@ import {
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import store from "../redux/store";
+import store from "../../redux/store";
 import MainPage from "./MainPage";
 
 const mockLocalStorage = {

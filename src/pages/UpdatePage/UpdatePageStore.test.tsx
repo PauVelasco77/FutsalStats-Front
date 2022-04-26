@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { errorHadlers } from "../mocks/handlers";
-import { server } from "../mocks/server";
-import store from "../redux/store";
+import { errorHadlers } from "../../mocks/handlers";
+import { server } from "../../mocks/server";
+import store from "../../redux/store";
 import UpdatePlayer from "./UpdatePlayer";
 
 describe("Given a UpdatePlayer page", () => {
