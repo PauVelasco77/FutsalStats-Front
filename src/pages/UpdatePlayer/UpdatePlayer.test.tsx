@@ -1,14 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import React, { BrowserRouter } from "react-router-dom";
 import store from "../../redux/store";
 import UpdatePlayer from "./UpdatePlayer";
-
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useParams: () => ({ id: "1" }),
-}));
+import { errorHadlers } from "../../mocks/handlers";
+import { server } from "../../mocks/server";
 
 const state = {
   players: [
@@ -40,15 +37,23 @@ const state = {
     },
   ],
 };
+
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useSelector: () => state.players,
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+}));
+
+
 describe("Given a UpdatePlayer page", () => {
   describe("When it's rendered", () => {
     test("Then it should render a header with 'edita un jugador de tu equipo'", () => {
       const expectedTitle = "edita un jugador de tu equipo";
+      React.useParams = jest.fn().mockReturnValue({ id: "1" }),
+
 
       render(
         <BrowserRouter>
@@ -66,6 +71,8 @@ describe("Given a UpdatePlayer page", () => {
 
   describe("When it's rendered with a title, and nine inputs", () => {
     test("Then it should a title", () => {
+      React.useParams = jest.fn().mockReturnValue({ id: "1" })
+
       const title = "edita un jugador de tu equipo";
       const nameInput = /nombre del jugador/i;
       const numberInput = /dorsal/i;
@@ -108,6 +115,8 @@ describe("Given a UpdatePlayer page", () => {
 
   describe("When it's rendered with a new player and the user click on submit", () => {
     test("Then it should reset the form and show the created player toast", async () => {
+      React.useParams = jest.fn().mockReturnValue({ id: "1" })
+
       const numberTest = "1";
       const nameTest = "Cristiano";
       const positionTest = "cierre";
@@ -146,3 +155,21 @@ describe("Given a UpdatePlayer page", () => {
     });
   });
 });
+
+describe("Given a UpdatePlayer page", () => {
+  describe("Whden it's rendered and the API return an error", () => {
+    test("Then it should render an empty page", async () => {
+      React.useParams = jest.fn().mockReturnValue({ id: "" })
+      server.use(...errorHadlers);
+
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <UpdatePlayer />
+          </BrowserRouter>
+        </Provider>
+      );
+    });
+  });
+});
+

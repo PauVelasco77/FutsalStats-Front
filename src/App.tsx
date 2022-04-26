@@ -6,7 +6,7 @@ import Login from "./pages/Login/Login";
 import MainPage from "./pages/MainPage/MainPage";
 import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
-import UpdatePlayer from "./pages/UpdatePage/UpdatePlayer";
+import UpdatePlayer from "./pages/UpdatePlayer/UpdatePlayer";
 
 function App() {
   return (
