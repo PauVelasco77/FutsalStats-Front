@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import PlayerCard from "../components/PlayerCard/PlayerCard";
-import PlayersFilter from "../components/PlayersFilter/PlayersFilter";
-import { Player } from "../Interfaces/PlayerInterface";
-import { State } from "../Interfaces/StateInterface";
+import PlayerCard from "../../components/PlayerCard/PlayerCard";
+import PlayersFilter from "../../components/PlayersFilter/PlayersFilter";
+import { Player } from "../../Interfaces/PlayerInterface";
+import { State } from "../../Interfaces/StateInterface";
 import {
   deletePlayerThunk,
   loadPlayersThunk,
-} from "../redux/thunks/playersThunk";
-import { loadUserThunk } from "../redux/thunks/userThunks";
-import { deleteFeedback } from "../utils/toasty";
+} from "../../redux/thunks/playersThunk";
+import { loadUserThunk } from "../../redux/thunks/userThunks";
+import { deleteFeedback } from "../../utils/toasty";
 
 const MainPageContainer = styled.div`
   background: linear-gradient(193.32deg, #14213d 45.83%, #000000 100%);

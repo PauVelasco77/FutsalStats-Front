@@ -2,32 +2,58 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { errorHadlers } from "../mocks/handlers";
-import { server } from "../mocks/server";
-import store from "../redux/store";
-import CreatePlayer from "./CreatePlayer";
-
-const mockNavigate = jest.fn();
+import store from "../../redux/store";
+import UpdatePlayer from "./UpdatePlayer";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockNavigate,
+  useParams: () => ({ id: "1" }),
 }));
 
-const mockLocalStorage = {
-  getItem: () => "fakeToken",
+const state = {
+  players: [
+    {
+      name: "Cristiano",
+      number: 7,
+      goals: 21,
+      assists: 3,
+      yellowCards: 4,
+      redCards: 9,
+      totalMatches: 21,
+      position: "Alero",
+      photo:
+        "https://img.uefa.com/imgml/TP/players/1/2022/324x324/63706.jpg?imwidth=36",
+      id: "1",
+    },
+    {
+      name: "Messi",
+      number: 10,
+      goals: 43,
+      assists: 2,
+      yellowCards: 6,
+      redCards: 1,
+      totalMatches: 24,
+      position: "Cierre",
+      photo:
+        "https://img.uefa.com/imgml/TP/players/1/2022/324x324/63706.jpg?imwidth=36",
+      id: "2",
+    },
+  ],
 };
-Object.defineProperty(window, "localStorage", { value: mockLocalStorage });
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useSelector: () => state.players,
+}));
 
-describe("Given a CreatePlayer page", () => {
+describe("Given a UpdatePlayer page", () => {
   describe("When it's rendered", () => {
-    test("Then it should render a header with 'añade un nuevo jugador a tu equipo'", () => {
-      const expectedTitle = "añade un nuevo jugador a tu equipo";
+    test("Then it should render a header with 'edita un jugador de tu equipo'", () => {
+      const expectedTitle = "edita un jugador de tu equipo";
 
       render(
         <BrowserRouter>
           <Provider store={store}>
-            <CreatePlayer />
+            <UpdatePlayer />
           </Provider>
         </BrowserRouter>
       );
@@ -40,7 +66,7 @@ describe("Given a CreatePlayer page", () => {
 
   describe("When it's rendered with a title, and nine inputs", () => {
     test("Then it should a title", () => {
-      const title = "añade un nuevo jugador a tu equipo";
+      const title = "edita un jugador de tu equipo";
       const nameInput = /nombre del jugador/i;
       const numberInput = /dorsal/i;
       const goalsInput = /goles/i;
@@ -53,7 +79,7 @@ describe("Given a CreatePlayer page", () => {
       render(
         <BrowserRouter>
           <Provider store={store}>
-            <CreatePlayer />
+            <UpdatePlayer />
           </Provider>
         </BrowserRouter>
       );
@@ -90,7 +116,7 @@ describe("Given a CreatePlayer page", () => {
       render(
         <Provider store={store}>
           <BrowserRouter>
-            <CreatePlayer />
+            <UpdatePlayer />
           </BrowserRouter>
         </Provider>
       );
@@ -99,6 +125,7 @@ describe("Given a CreatePlayer page", () => {
       inputsNumber.forEach((input) => userEvent.type(input, numberTest));
 
       const inputName = screen.getByRole("textbox");
+      userEvent.clear(inputName);
       userEvent.type(inputName, nameTest);
 
       const selectPosition = screen.getByRole("combobox");
@@ -114,50 +141,7 @@ describe("Given a CreatePlayer page", () => {
       expect(inputName).toHaveValue("");
       expect(submitButton).toBeDisabled();
 
-      const findToast = await screen.findByText(`Player ${nameTest} created`);
-      expect(findToast).toBeInTheDocument();
-    });
-  });
-
-  describe("When it's rendered with a new player and the user click on submidt", () => {
-    test("Then it should reset the form and show the created player toast", async () => {
-      server.use(...errorHadlers);
-
-      const numberTest = "1";
-      const nameTest = "Cristiano";
-      const positionTest = "cierre";
-      const file = new File(["hello"], "hello.png", { type: "image/png" });
-
-      render(
-        <Provider store={store}>
-          <BrowserRouter>
-            <CreatePlayer />
-          </BrowserRouter>
-        </Provider>
-      );
-
-      const inputsNumber = screen.getAllByRole("spinbutton");
-      inputsNumber.forEach((input) => userEvent.type(input, numberTest));
-
-      const inputName = screen.getByRole("textbox");
-      userEvent.type(inputName, nameTest);
-
-      const selectPosition = screen.getByRole("combobox");
-      userEvent.selectOptions(selectPosition, positionTest);
-
-      const addFile = screen.getByLabelText("FOTO");
-      userEvent.upload(addFile, file);
-
-      const submitButton = screen.getByRole("button", { name: "CREAR" });
-      userEvent.click(submitButton);
-
-      expect(selectPosition).toHaveValue("");
-      expect(inputName).toHaveValue("");
-      expect(submitButton).toBeDisabled();
-
-      const findToast = await screen.findByText(
-        `Can't create ${nameTest} player`
-      );
+      const findToast = await screen.findByText(`Player ${nameTest} updated`);
       expect(findToast).toBeInTheDocument();
     });
   });

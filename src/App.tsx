@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import CreatePlayer from "./pages/CreatePlayer";
-import DetailPage from "./pages/Detail";
-import Login from "./pages/Login";
-import MainPage from "./pages/MainPage";
-import NotFound from "./pages/NotFound";
-import Register from "./pages/Register";
-import UpdatePlayer from "./pages/UpdatePlayer";
+import CreatePlayer from "./pages/CreatePlayer/CreatePlayer";
+import DetailPage from "./pages/Detail/Detail";
+import Login from "./pages/Login/Login";
+import MainPage from "./pages/MainPage/MainPage";
+import NotFound from "./pages/NotFound/NotFound";
+import Register from "./pages/Register/Register";
+import UpdatePlayer from "./pages/UpdatePage/UpdatePlayer";
 
 function App() {
   return (

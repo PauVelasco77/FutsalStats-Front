@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import Router, { BrowserRouter } from "react-router-dom";
-import store from "../redux/store";
+import store from "../../redux/store";
 import Detail from "./Detail";
 
 describe("Given a Detail page", () => {

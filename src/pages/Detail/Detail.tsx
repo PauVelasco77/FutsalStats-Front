@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import PlayerCard from "../components/PlayerCard/PlayerCard";
-import { Player } from "../Interfaces/PlayerInterface";
-import { State } from "../Interfaces/StateInterface";
+import PlayerCard from "../../components/PlayerCard/PlayerCard";
+import { Player } from "../../Interfaces/PlayerInterface";
+import { State } from "../../Interfaces/StateInterface";
 import {
   deletePlayerThunk,
   loadPlayersThunk,
-} from "../redux/thunks/playersThunk";
-import { deleteFeedback } from "../utils/toasty";
+} from "../../redux/thunks/playersThunk";
+import { deleteFeedback } from "../../utils/toasty";
 
 const DetailContainer = styled.div`
   margin-top: 50px;

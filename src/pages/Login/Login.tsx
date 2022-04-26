@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import GenericButton from "../components/GenericButton/GenericButton";
-import HeaderLoginRegister from "../components/HeaderLoginRegister/HeaderLoginRegister";
-import { registerBlankFields } from "../utils/blankFields";
-import { registerUser } from "../utils/registerUserFetch";
-import { newRegisterFeedback, wrongRegisterFeedback } from "../utils/toasty";
+import GenericButton from "../../components/GenericButton/GenericButton";
+import HeaderLoginRegister from "../../components/HeaderLoginRegister/HeaderLoginRegister";
+import { userBlankFields } from "../../utils/blankFields";
+import { loginUser } from "../../utils/loginUserFetch";
+import { wrongLoginFeedback } from "../../utils/toasty";
 
 const LoginContainer = styled.section`
   margin-top: 50px;
@@ -70,31 +70,27 @@ const LoginContainer = styled.section`
   }
 `;
 
-const Register = () => {
+const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState(registerBlankFields);
+  const [formData, setFormData] = useState(userBlankFields);
 
   const changeData = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
   };
 
-  const isInvalid =
-    formData.username === "" ||
-    formData.password === "" ||
-    formData.teamName === "";
+  const isInvalid = formData.username === "" || formData.password === "";
 
   const submitForm = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = formData;
 
-    setFormData(registerBlankFields);
-    const isRegistered = await registerUser(data);
+    setFormData(userBlankFields);
+    const returnedToken = await loginUser(data);
 
-    if (!isRegistered.error) {
-      newRegisterFeedback();
-      navigate("/login");
+    if (!returnedToken.error) {
+      navigate("/");
     } else {
-      wrongRegisterFeedback();
+      wrongLoginFeedback();
     }
   };
 
@@ -122,24 +118,15 @@ const Register = () => {
                 value={formData.password}
               />
             </div>
-            <div>
-              <label htmlFor="teamName">NOMBRE DEL EQUIPO</label>
-              <input
-                id="teamName"
-                type="text"
-                onChange={changeData}
-                value={formData.teamName}
-              />
-            </div>
           </div>
-          <GenericButton text="REGISTER" disabled={isInvalid} />
+          <GenericButton text="LOGIN" disabled={isInvalid} />
         </form>
         <p>
-          ya estás registrado? logueate <Link to="/login">aquí</Link>
+          eres nuevo? regístrate <Link to="/register">aquí</Link>
         </p>
       </LoginContainer>
     </>
   );
 };
 
-export default Register;
+export default Login;
