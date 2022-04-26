@@ -1,20 +1,35 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import Router, { BrowserRouter } from "react-router-dom";
 import store from "../redux/store";
-import DetailPage from "./DetailPage";
+import Detail from "./Detail";
+
+describe("Given a Detail page", () => {
+  describe("When it's rendered with an id in the url", () => {
+    test("Then it should display the letter that corresponds to the id", async () => {
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <Detail />
+          </BrowserRouter>
+        </Provider>
+      );
+    });
+  });
+});
 
 const mockDispatch = jest.fn();
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => mockDispatch,
+  useSelector: () => state.players,
+
 }));
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useParams: () => ({ id: "1" }),
 }));
 
 const state = {
@@ -47,18 +62,18 @@ const state = {
     },
   ],
 };
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useSelector: () => state.players,
-}));
 
-describe("Given a DetailPage page", () => {
+
+describe("Given a Detail page", () => {
   describe("When it's rendered with an id in the url", () => {
     test("Then it should display the letter that corresponds to the id", async () => {
+      Router.useParams = jest.fn().mockReturnValue({ id: "1" }),
+
+
       render(
         <Provider store={store}>
           <BrowserRouter>
-            <DetailPage />
+            <Detail />
           </BrowserRouter>
         </Provider>
       );
@@ -106,3 +121,8 @@ describe("Given a DetailPage page", () => {
     });
   });
 });
+
+
+
+
+
