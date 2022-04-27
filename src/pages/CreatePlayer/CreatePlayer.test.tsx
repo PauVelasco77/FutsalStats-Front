@@ -14,12 +14,15 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate,
 }));
 
-const mockLocalStorage = {
-  getItem: () => "fakeToken",
-};
-Object.defineProperty(window, "localStorage", { value: mockLocalStorage });
+
 
 describe("Given a CreatePlayer page", () => {
+
+  const mockLocalStorage = {
+    getItem: () => "fakeToken",
+  };
+  Object.defineProperty(window, "localStorage", { value: mockLocalStorage });
+
   describe("When it's rendered", () => {
     test("Then it should render a header with 'añade un nuevo jugador a tu equipo'", () => {
       const expectedTitle = "añade un nuevo jugador a tu equipo";
@@ -161,4 +164,21 @@ describe("Given a CreatePlayer page", () => {
       expect(findToast).toBeInTheDocument();
     });
   });
+
+    describe("When it's rendered without token on the localStorage", () => {
+    test("Then it should call the navigate", () => {
+      mockLocalStorage.getItem = () => "";
+
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <CreatePlayer />
+          </BrowserRouter>
+        </Provider>
+      );
+
+      expect(mockNavigate).toHaveBeenCalled();
+    });
+  });
 });
+
