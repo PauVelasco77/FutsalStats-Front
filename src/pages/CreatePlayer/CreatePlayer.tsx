@@ -15,6 +15,7 @@ const CreatePlayer = () => {
     }
   }, [navigate]);
 
+
   return (
     <PlayerForm
       heading={"añade un nuevo jugador a tu equipo"}

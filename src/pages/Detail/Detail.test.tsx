@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import Router, { BrowserRouter } from "react-router-dom";
 import store from "../../redux/store";
 import Detail from "./Detail";
+import * as redux from 'react-redux';
+
 
 describe("Given a Detail page", () => {
   describe("When it's rendered with an id in the url", () => {
@@ -19,18 +21,11 @@ describe("Given a Detail page", () => {
   });
 });
 
-const mockDispatch = jest.fn();
-
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useDispatch: () => mockDispatch,
-  useSelector: () => state.players,
-
-}));
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
 }));
+
 
 const state = {
   players: [
@@ -63,12 +58,24 @@ const state = {
   ],
 };
 
+jest.mock("react-redux", () => ({
+  ...jest.requireActual("react-redux"),
+  useDispatch: () => jest.fn(),
+  // useSelector: () => state.players,
+
+}));
+
 
 describe("Given a Detail page", () => {
+
+  beforeEach(()=>{
+    const spy = jest.spyOn(redux, 'useSelector');
+    spy.mockReturnValue(state.players);
+  })
+
   describe("When it's rendered with an id in the url", () => {
     test("Then it should display the letter that corresponds to the id", async () => {
       Router.useParams = jest.fn().mockReturnValue({ id: "1" }),
-
 
       render(
         <Provider store={store}>
